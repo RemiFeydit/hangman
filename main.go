@@ -1,27 +1,19 @@
 package main
 
 import (
-	"fmt"
-
-	"hangman.com/notitou/hangman/functions"
+	"hangman.com/notitou/hangman/game"
 )
 
 func main() {
-	wordToSearch := functions.RandomWord()
-	initWord := functions.InitWord(wordToSearch)
+	wordToSearch := game.RandomWord()
+	initWord := game.InitWord(wordToSearch)
 	attempt := 10
-	userAnswer := ""
+	var userAnswer string
 	for true {
-		if attempt == 0 {
-			fmt.Println("Game Over!!!")
+		game.PrintWord(initWord)
+		game.AskUser(&attempt, &wordToSearch, &initWord, &userAnswer)
+		if game.WinCon(&userAnswer, &wordToSearch, &initWord) || game.GameOverCon(&wordToSearch, &attempt){
 			return
-		} else {
-			userAnswer = functions.AskUser(attempt)
-			attempt--
 		}
 	}
-
-	fmt.Println(userAnswer)
-	fmt.Printf("%v", wordToSearch)
-	fmt.Printf("%v", initWord)
 }
