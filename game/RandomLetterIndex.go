@@ -4,7 +4,6 @@ import (
 	"hangman.com/notitou/hangman/utils"
 	"math/rand"
 	"time"
-	"fmt"
 )
 
 func RandomLetterIndex(word string) []int{
@@ -20,6 +19,5 @@ func RandomLetterIndex(word string) []int{
 			randomIndexSlice = append(randomIndexSlice, randWordIndex)
 		}
 	}
-	fmt.Printf("%v", randomIndexSlice)
 	return randomIndexSlice
 }
