@@ -2,14 +2,16 @@ package game
 
 import (
 	"bufio"
+	"fmt"
 	"math/rand"
 	"os"
 	"time"
+
 	"hangman.com/notitou/hangman/utils"
 )
 
 func RandomWord() string {
-	if utils.IsParam(){
+	if utils.IsParam() {
 		f, _ := os.Open(os.Args[1])
 		defer f.Close()
 		scanner := bufio.NewScanner(f)
@@ -21,6 +23,7 @@ func RandomWord() string {
 		randWordIndex := rand.Intn(len(wordArray))
 		return wordArray[randWordIndex]
 	}
-	os.Exit(3)
+	fmt.Println("Enter a valid text document to begin the game !")
+	os.Exit(0)
 	return ""
 }

@@ -12,7 +12,7 @@ func main() {
 	var userAnswer string
 	for true {
 		game.AskUser(&attempt, &wordToSearch, &initWord, &userAnswer, &submittedLetter)
-		if game.WinCon(&userAnswer, &wordToSearch, &initWord) || game.GameOverCon(&wordToSearch, &attempt){
+		if game.WinCon(&userAnswer, &wordToSearch, &initWord) || game.GameOverCon(&wordToSearch, &attempt) {
 			return
 		}
 	}
