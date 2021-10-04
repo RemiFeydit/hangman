@@ -1,8 +1,6 @@
 package main
 
-import (
-	"hangman.com/notitou/hangman/game"
-)
+import "hangman.com/notitou/hangman/game"
 
 func main() {
 	wordToSearch := game.RandomWord()

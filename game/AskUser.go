@@ -19,11 +19,24 @@ func AskUser(numberAttempt *int, wordToSearch *string, initWord *[]string, userA
 	fmt.Print("\033[H\033[2J")
 	*userAnswer = answer
 	answerToRune := []rune(answer)
-	if utils.ContainsSliceStr(*submittedLetter, string(unicode.ToLower(rune(answer[0])))) {
+	if len(answer) == 0 {
+		fmt.Println("You can't submit an empty answer")
+		AskUser(numberAttempt, wordToSearch, initWord, userAnswer, submittedLetter)
+		return
+	}
+	if utils.ContainsSliceStr(*submittedLetter, string(unicode.ToLower(rune(answer[0])))) && utils.Len(answer) == 1 {
 		fmt.Printf("You already submitted the letter %v, try again\n", answer)
-	} else if !(utils.ContainsStr(*wordToSearch, string(unicode.ToLower(rune(answer[0]))))) && *wordToSearch != answer {
+		ReadFile(9 - *numberAttempt)
+	} else if !(utils.ContainsStr(*wordToSearch, string(unicode.ToLower(rune(answer[0]))))) && utils.Len(answer) == 1 {
 		*numberAttempt--
 		fmt.Printf("Not present in the word, %v attempts remaining\n", *numberAttempt)
+		ReadFile(9 - *numberAttempt)
+	} else if utils.Len(answer) > 1 && answer != *wordToSearch {
+		*numberAttempt -= 2
+		if *numberAttempt < 0 {
+			*numberAttempt = 0
+		}
+		fmt.Printf("%v is not the right word, %v attempts remaining\n", answer, *numberAttempt)
 	} else {
 		wordToSearchRune := []rune(*wordToSearch)
 		for i, char := range wordToSearchRune {
@@ -42,15 +55,16 @@ func AskUser(numberAttempt *int, wordToSearch *string, initWord *[]string, userA
 				}
 			}
 
-			if string(char) == answer || utils.ContainsSliceStr(accentChar, string(char)) {
+			if utils.ContainsSliceStr(accentChar, string(char)) {
 				(*initWord)[i] = string(unicode.ToUpper(char))
 			}
 
 		}
 		fmt.Printf("Congrats, the letter %v was in the word !\n", answer)
+		ReadFile(9 - *numberAttempt)
 	}
 	if !(utils.ContainsSliceStr(*submittedLetter, answer)) {
 		*submittedLetter = append(*submittedLetter, answer)
-		// à modifier car é pas ajouté à la liste
+		*submittedLetter = append(*submittedLetter, accentChar...)
 	}
 }
